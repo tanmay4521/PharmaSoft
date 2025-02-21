@@ -22,5 +22,5 @@ The **Pharmacy Management System** allows users to:
 ## 🔧 Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/tanmay4521/pharmasoft.git
+   git clone https://github.com/tanmay4521/PharmaSoft.git
 
