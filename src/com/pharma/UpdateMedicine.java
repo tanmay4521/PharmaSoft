@@ -4,10 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UpdateMedicine extends JFrame implements ActionListener {
     JTextField searchBar, updatedName, updatedPrice, updatedQty;
@@ -20,6 +17,9 @@ public class UpdateMedicine extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
+
+        // Ensure table exists before proceeding
+        createMedicineTableIfNotExists();
 
         // Search Section
         searchLabel = new JLabel("Search Medicine (ID/Name):");
@@ -67,7 +67,7 @@ public class UpdateMedicine extends JFrame implements ActionListener {
         updateButton.addActionListener(this);
         resetButton.addActionListener(this);
         backButton.addActionListener(e -> {
-            DashBoard.getInstance().bringToFront(); // Use Singleton Dashboard Instance
+            DashBoard.getInstance().bringToFront();
             dispose();
         });
 
@@ -99,6 +99,23 @@ public class UpdateMedicine extends JFrame implements ActionListener {
         }
     }
 
+    private void createMedicineTableIfNotExists() {
+        try (Connection con = DAO.getConnection();
+             Statement stmt = con.createStatement()) {
+
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS medicine (" +
+                    "id INT PRIMARY KEY AUTO_INCREMENT, " +
+                    "med_name VARCHAR(255) NOT NULL, " +
+                    "med_price DOUBLE NOT NULL, " +
+                    "med_qty INT NOT NULL" +
+                    ")";
+
+            stmt.executeUpdate(createTableQuery);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private void searchMedicine() {
         String searchQuery = searchBar.getText().trim();
 
@@ -110,8 +127,8 @@ public class UpdateMedicine extends JFrame implements ActionListener {
         try (Connection con = DAO.getConnection();
              PreparedStatement pst = con.prepareStatement("SELECT * FROM medicine WHERE id LIKE ? OR med_name LIKE ?")) {
 
-            pst.setString(1, "%" + searchQuery + "%"); // Allow partial match for ID
-            pst.setString(2, "%" + searchQuery + "%"); // Allow partial match for name
+            pst.setString(1, "%" + searchQuery + "%");
+            pst.setString(2, "%" + searchQuery + "%");
 
             ResultSet rs = pst.executeQuery();
 
@@ -127,7 +144,6 @@ public class UpdateMedicine extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     private void updateMedicine() {
         String medName = updatedName.getText();

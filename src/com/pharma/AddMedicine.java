@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class AddMedicine extends JFrame implements ActionListener {
     static JLabel medNameLabel, medPriceLabel, medQtyLabel;
@@ -21,6 +22,9 @@ public class AddMedicine extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLayout(null);
         setLocationRelativeTo(null);
+
+        // Ensure the medicine table exists before proceeding
+        createMedicineTable();
 
         // Window close event to return to Dashboard
         addWindowListener(new WindowAdapter() {
@@ -56,7 +60,7 @@ public class AddMedicine extends JFrame implements ActionListener {
         // Back Button
         backButton = new JButton("Back to Dashboard");
         backButton.setFont(new Font("Arial", Font.BOLD, 14));
-        backButton.setBackground(new Color(34, 177, 76)); // Red for Back Button
+        backButton.setBackground(new Color(200, 0, 0)); // Red for Back Button
         backButton.setForeground(Color.WHITE);
         backButton.setFocusPainted(false);
         backButton.addActionListener(new ActionListener() {
@@ -113,8 +117,8 @@ public class AddMedicine extends JFrame implements ActionListener {
                  PreparedStatement pst = con.prepareStatement("INSERT INTO medicine(med_name, med_price, med_qty) VALUES (?, ?, ?)")) {
 
                 pst.setString(1, medicineName);
-                pst.setString(2, medicinePrice);
-                pst.setString(3, medicineQty);
+                pst.setDouble(2, Double.parseDouble(medicinePrice));
+                pst.setInt(3, Integer.parseInt(medicineQty));
 
                 int status = pst.executeUpdate();
                 if (status > 0) {
@@ -127,9 +131,26 @@ public class AddMedicine extends JFrame implements ActionListener {
                 }
 
             } catch (SQLException ex) {
-                ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Invalid input for price or quantity.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    private void createMedicineTable() {
+        String createTableQuery = "CREATE TABLE IF NOT EXISTS medicine (" +
+                "id INT PRIMARY KEY AUTO_INCREMENT, " +
+                "med_name VARCHAR(255) NOT NULL, " +
+                "med_price DOUBLE NOT NULL, " +
+                "med_qty INT NOT NULL" +
+                ")";
+
+        try (Connection con = DAO.getConnection();
+             Statement stmt = con.createStatement()) {
+            stmt.executeUpdate(createTableQuery);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error creating medicine table: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

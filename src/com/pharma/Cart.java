@@ -208,7 +208,7 @@ public class Cart extends JFrame implements ActionListener {
             double total = qty * price;
             cartTableModel.addRow(new Object[]{idField.getText(), nameField.getText(), price, qty, total});
             totalAmount += total;
-            totalLabel.setText("Total: $" + totalAmount);
+            totalLabel.setText("Total: ₹" + totalAmount);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Invalid quantity format.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -274,6 +274,7 @@ public class Cart extends JFrame implements ActionListener {
             cartTableModel.setRowCount(0); // Clear cart
             totalAmount = 0.0;
             totalLabel.setText("Total: ₹0.00");
+
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
