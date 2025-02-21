@@ -36,6 +36,7 @@ public class DashBoard extends JFrame implements ActionListener {
         viewMed.addActionListener(this);
         updateMed.addActionListener(this);
         searchMed.addActionListener(this);
+        cart.addActionListener(this);
         logout.addActionListener(this);
 
         JButton[] buttons = {addMed, viewMed, updateMed, searchMed, cart,logout};
@@ -79,6 +80,9 @@ public class DashBoard extends JFrame implements ActionListener {
             new UpdateMedicine();
         } else if (e.getSource() == searchMed) {
             new SearchMedicine();
+        } else if (e.getSource()==cart)
+        {
+            new Cart();
         } else if (e.getSource() == logout) {
             int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
