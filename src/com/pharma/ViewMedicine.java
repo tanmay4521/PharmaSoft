@@ -57,7 +57,7 @@ public class ViewMedicine extends JFrame {
         // Back Button
         backButton = new JButton("Back to Dashboard");
         backButton.setFont(new Font("Arial", Font.BOLD, 14));
-        backButton.setBackground(new Color(34, 177, 76)); // Medical Green
+        backButton.setBackground(new Color(200, 0, 0)); // Medical Green
         backButton.setForeground(Color.WHITE);
         backButton.setFocusPainted(false);
         backButton.setPreferredSize(new Dimension(200, 40));
