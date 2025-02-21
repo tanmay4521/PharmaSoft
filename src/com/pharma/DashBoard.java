@@ -9,7 +9,7 @@ public class DashBoard extends JFrame implements ActionListener {
     static DashBoard instance; // Static instance to track existing dashboard
 
     static JLabel mainLabel;
-    static JButton addMed, viewMed, updateMed, deleteMed, logout;
+    static JButton addMed, viewMed, updateMed, deleteMed, cart,logout;
 
     DashBoard() { // Private constructor to prevent multiple instances
         setTitle("Pharmasoft Dashboard");
@@ -29,6 +29,7 @@ public class DashBoard extends JFrame implements ActionListener {
         viewMed = new JButton("View Medicines");
         updateMed = new JButton("Update Medicine");
         deleteMed = new JButton("Delete Medicine");
+        cart=new JButton("Cart");
         logout = new JButton("Logout");
 
         addMed.addActionListener(this);
@@ -37,12 +38,12 @@ public class DashBoard extends JFrame implements ActionListener {
         deleteMed.addActionListener(this);
         logout.addActionListener(this);
 
-        JButton[] buttons = {addMed, viewMed, updateMed, deleteMed, logout};
+        JButton[] buttons = {addMed, viewMed, updateMed, deleteMed, cart,logout};
         int y = 100;
         for (JButton btn : buttons) {
             btn.setBounds(300, y, 200, 40);
             btn.setFont(new Font("Arial", Font.PLAIN, 16));
-            btn.setBackground(new Color(34, 177, 76)); // Medical Green
+            btn.setBackground(new Color(34, 177, 76));
             btn.setForeground(Color.WHITE);
             btn.setFocusPainted(false);
             add(btn);
@@ -85,7 +86,7 @@ public class DashBoard extends JFrame implements ActionListener {
             if (confirm == JOptionPane.YES_OPTION) {
                 instance = null; // Reset instance on logout
                 dispose(); // Close the dashboard
-                // new LoginScreen(); // Implement Login Screen
+                new login(); // Implement Login Screen
             }
         }
     }
