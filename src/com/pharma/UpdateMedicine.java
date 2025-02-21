@@ -101,16 +101,18 @@ public class UpdateMedicine extends JFrame implements ActionListener {
 
     private void searchMedicine() {
         String searchQuery = searchBar.getText().trim();
+
         if (searchQuery.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter an ID or name to search.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         try (Connection con = DAO.getConnection();
-             PreparedStatement pst = con.prepareStatement("SELECT * FROM medicine WHERE id=? OR med_name=?")) {
+             PreparedStatement pst = con.prepareStatement("SELECT * FROM medicine WHERE id LIKE ? OR med_name LIKE ?")) {
 
-            pst.setString(1, searchQuery);
-            pst.setString(2, searchQuery);
+            pst.setString(1, "%" + searchQuery + "%"); // Allow partial match for ID
+            pst.setString(2, "%" + searchQuery + "%"); // Allow partial match for name
+
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
@@ -125,6 +127,7 @@ public class UpdateMedicine extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void updateMedicine() {
         String medName = updatedName.getText();
