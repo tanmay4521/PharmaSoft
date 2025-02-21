@@ -9,7 +9,7 @@ public class DashBoard extends JFrame implements ActionListener {
     static DashBoard instance; // Static instance to track existing dashboard
 
     static JLabel mainLabel;
-    static JButton addMed, viewMed, updateMed, deleteMed, cart,logout;
+    static JButton addMed, viewMed, updateMed, searchMed, cart,logout;
 
     DashBoard() { // Private constructor to prevent multiple instances
         setTitle("Pharmasoft Dashboard");
@@ -28,17 +28,17 @@ public class DashBoard extends JFrame implements ActionListener {
         addMed = new JButton("Add Medicine");
         viewMed = new JButton("View Medicines");
         updateMed = new JButton("Update Medicine");
-        deleteMed = new JButton("Delete Medicine");
+        searchMed = new JButton("Search Medicine");
         cart=new JButton("Cart");
         logout = new JButton("Logout");
 
         addMed.addActionListener(this);
         viewMed.addActionListener(this);
         updateMed.addActionListener(this);
-        deleteMed.addActionListener(this);
+        searchMed.addActionListener(this);
         logout.addActionListener(this);
 
-        JButton[] buttons = {addMed, viewMed, updateMed, deleteMed, cart,logout};
+        JButton[] buttons = {addMed, viewMed, updateMed, searchMed, cart,logout};
         int y = 100;
         for (JButton btn : buttons) {
             btn.setBounds(300, y, 200, 40);
@@ -76,9 +76,8 @@ public class DashBoard extends JFrame implements ActionListener {
             new ViewMedicine();
             dispose();
         } else if (e.getSource() == updateMed) {
-            // new UpdateMedicine(); // Implement update functionality
-            JOptionPane.showMessageDialog(this, "Update Medicine Clicked! (Not Implemented)", "Info", JOptionPane.INFORMATION_MESSAGE);
-        } else if (e.getSource() == deleteMed) {
+            new UpdateMedicine();
+        } else if (e.getSource() == searchMed) {
             // new DeleteMedicine(); // Implement delete functionality
             JOptionPane.showMessageDialog(this, "Delete Medicine Clicked! (Not Implemented)", "Info", JOptionPane.INFORMATION_MESSAGE);
         } else if (e.getSource() == logout) {
