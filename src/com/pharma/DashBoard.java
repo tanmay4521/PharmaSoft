@@ -78,8 +78,7 @@ public class DashBoard extends JFrame implements ActionListener {
         } else if (e.getSource() == updateMed) {
             new UpdateMedicine();
         } else if (e.getSource() == searchMed) {
-            // new DeleteMedicine(); // Implement delete functionality
-            JOptionPane.showMessageDialog(this, "Delete Medicine Clicked! (Not Implemented)", "Info", JOptionPane.INFORMATION_MESSAGE);
+            new SearchMedicine();
         } else if (e.getSource() == logout) {
             int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
