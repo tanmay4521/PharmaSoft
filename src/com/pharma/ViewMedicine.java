@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,10 +15,11 @@ import java.sql.SQLException;
 public class ViewMedicine extends JFrame {
     JTable medicineTable;
     DefaultTableModel tableModel;
+    JButton backButton;
 
     ViewMedicine() {
         setTitle("View Medicines");
-        setSize(700, 400);
+        setSize(700, 450);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -50,6 +53,28 @@ public class ViewMedicine extends JFrame {
         // Adding Table to Scroll Pane
         JScrollPane scrollPane = new JScrollPane(medicineTable);
         add(scrollPane, BorderLayout.CENTER);
+
+        // Back Button
+        backButton = new JButton("Back to Dashboard");
+        backButton.setFont(new Font("Arial", Font.BOLD, 14));
+        backButton.setBackground(new Color(34, 177, 76)); // Medical Green
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        backButton.setPreferredSize(new Dimension(200, 40));
+
+        // Back Button Action
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new DashBoard(); // Open Dashboard
+                dispose(); // Close current window
+            }
+        });
+
+        // Adding Back Button at Bottom
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(backButton);
+        add(buttonPanel, BorderLayout.SOUTH);
 
         // Load Data from Database
         loadMedicineData();

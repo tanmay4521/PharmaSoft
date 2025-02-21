@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class AddMedicine extends JFrame implements ActionListener {
     static JLabel medNameLabel, medPriceLabel, medQtyLabel;
     static JTextField medNameField, medPriceField, medQtyField;
-    static JButton submitButton;
+    static JButton submitButton, backButton;
 
     AddMedicine() {
         setTitle("Add Medicine");
@@ -53,6 +53,20 @@ public class AddMedicine extends JFrame implements ActionListener {
         submitButton.setFocusPainted(false);
         submitButton.addActionListener(this);
 
+        // Back Button
+        backButton = new JButton("Back to Dashboard");
+        backButton.setFont(new Font("Arial", Font.BOLD, 14));
+        backButton.setBackground(new Color(34, 177, 76)); // Red for Back Button
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new DashBoard(); // Open Dashboard
+                dispose(); // Close current window
+            }
+        });
+
         // Positioning Elements
         medNameLabel.setBounds(50, 50, 150, 30);
         medPriceLabel.setBounds(50, 100, 150, 30);
@@ -63,6 +77,7 @@ public class AddMedicine extends JFrame implements ActionListener {
         medQtyField.setBounds(200, 150, 200, 30);
 
         submitButton.setBounds(150, 220, 180, 40);
+        backButton.setBounds(150, 280, 180, 40); // Adjusted below Submit Button
 
         // Adding Components
         add(medNameLabel);
@@ -72,6 +87,7 @@ public class AddMedicine extends JFrame implements ActionListener {
         add(medPriceField);
         add(medQtyField);
         add(submitButton);
+        add(backButton);
 
         setVisible(true);
     }

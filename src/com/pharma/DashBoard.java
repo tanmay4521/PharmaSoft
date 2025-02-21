@@ -6,15 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DashBoard extends JFrame implements ActionListener {
+    static DashBoard instance; // Static instance to track existing dashboard
+
     static JLabel mainLabel;
     static JButton addMed, viewMed, updateMed, deleteMed, logout;
 
-    DashBoard() {
+    DashBoard() { // Private constructor to prevent multiple instances
         setTitle("Pharmasoft Dashboard");
-        setSize(800, 500); // Standardized size
+        setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         setLocationRelativeTo(null);
+
         // Main Label
         mainLabel = new JLabel("Pharmasoft Dashboard", SwingConstants.CENTER);
         mainLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -27,11 +30,13 @@ public class DashBoard extends JFrame implements ActionListener {
         updateMed = new JButton("Update Medicine");
         deleteMed = new JButton("Delete Medicine");
         logout = new JButton("Logout");
+
         addMed.addActionListener(this);
         viewMed.addActionListener(this);
         updateMed.addActionListener(this);
         deleteMed.addActionListener(this);
         logout.addActionListener(this);
+
         JButton[] buttons = {addMed, viewMed, updateMed, deleteMed, logout};
         int y = 100;
         for (JButton btn : buttons) {
@@ -47,18 +52,45 @@ public class DashBoard extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new DashBoard();
+    // Singleton Pattern: Only One Dashboard Instance
+    public static DashBoard getInstance() {
+        if (instance == null) {
+            instance = new DashBoard();
+        }
+        return instance;
+    }
+
+    // Bring existing window to front
+    public void bringToFront() {
+        setState(JFrame.NORMAL);
+        toFront();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addMed) {
             new AddMedicine();
-        } else if (e.getSource()==viewMed)
-        {
+            dispose(); // Close current dashboard to prevent duplicate windows
+        } else if (e.getSource() == viewMed) {
             new ViewMedicine();
+            dispose();
+        } else if (e.getSource() == updateMed) {
+            // new UpdateMedicine(); // Implement update functionality
+            JOptionPane.showMessageDialog(this, "Update Medicine Clicked! (Not Implemented)", "Info", JOptionPane.INFORMATION_MESSAGE);
+        } else if (e.getSource() == deleteMed) {
+            // new DeleteMedicine(); // Implement delete functionality
+            JOptionPane.showMessageDialog(this, "Delete Medicine Clicked! (Not Implemented)", "Info", JOptionPane.INFORMATION_MESSAGE);
+        } else if (e.getSource() == logout) {
+            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                instance = null; // Reset instance on logout
+                dispose(); // Close the dashboard
+                // new LoginScreen(); // Implement Login Screen
+            }
         }
     }
 
+    public static void main(String[] args) {
+        getInstance();
+    }
 }
