@@ -55,6 +55,9 @@ public class DashBoard extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addMed) {
             new AddMedicine();
+        } else if (e.getSource()==viewMed)
+        {
+            new ViewMedicine();
         }
     }
 
