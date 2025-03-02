@@ -8,7 +8,7 @@ public class DAO
 {
     public static Connection getConnection() throws SQLException
     {
-        Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/PharmaSoft","root","Nagawadet@123");
+        Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/PharmaSoft","root","root");
         return con;
     }
 }
